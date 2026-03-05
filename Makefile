@@ -1,17 +1,17 @@
 TARGET = syscat
 VERSION = 0.1.0
-RELEASE = 1
 
 # Packaging
 # Debian
 DEBIAN_PACKAGE = $(TARGET)_$(VERSION)_amd64.deb
 DEBIAN_CONTROL = dist/debian/DEBIAN/control
 
-SRCS = src/main.c
+SRCS = src/utils.c src/main.c
+INCLUDES = include
 BIN_DIR = bin
 CC=gcc
 LINT=clang-format
-RM =rm -f
+RM =rm -rf
 VALGRIND_FLAGS = --leak-check=full --track-origins=yes --show-leak-kinds=all
 
 # Compiler and linker flags
@@ -27,7 +27,7 @@ LINK_FLAGS = -nostdlib
 all: $(TARGET)
 
 $(TARGET): $(SRCS)
-	$(CC) $(CFLAGS) -o $(BIN_DIR)/$@ $^ $(LINK_FLAGS)
+	$(CC) $(CFLAGS) -I$(INCLUDES) $^ -o $(BIN_DIR)/$@ $(LINK_FLAGS)
 
 dist: debian
 
