@@ -1,3 +1,4 @@
 BasedOnStyle: GNU
+ColumnLimit: 127
 IndentWidth: 2
 UseTab: Never
