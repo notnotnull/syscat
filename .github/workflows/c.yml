@@ -1,0 +1,48 @@
+name: C Workflows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: build
+      run: apt install build-essential valgrind libcunit1-dev clang-format
+    - name: make
+      run: make
+    
+  clang_format:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: clang-format
+        run: make checklint
+
+  unit_tests:
+
+    runs-on: ubuntu-latest
+    needs: build clang-format
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: test
+        run: make test && bin/utils_test
+  
+  valgrind:
+
+    runs-on: ubuntu-latest
+    needs: build clang-format
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: valgrind
+        run: make test && bin/utils_test
