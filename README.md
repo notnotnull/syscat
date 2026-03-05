@@ -1,2 +1,3 @@
+[![CUnit](https://github.com/notnotnull/syscat/actions/workflows/cunit.yml/badge.svg)](https://github.com/notnotnull/syscat/actions/workflows/cunit.yml) [![Valgrind](https://github.com/notnotnull/syscat/actions/workflows/valgrind.yml/badge.svg)](https://github.com/notnotnull/syscat/actions/workflows/valgrind.yml) [![Clang Format](https://github.com/notnotnull/syscat/actions/workflows/clang.yml/badge.svg)](https://github.com/notnotnull/syscat/actions/workflows/clang.yml)
 # syscat
 Lightweight file concatenation utility that consolidates multiple files into a single output without relying on the C standard library.
