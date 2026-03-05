@@ -53,3 +53,12 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Binary output files
+bin/*
+
+# Dist packages and files
+dist
+*.deb
+*.rpm
+*.tar.gz
