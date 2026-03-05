@@ -7,6 +7,7 @@ DEBIAN_PACKAGE = $(TARGET)_$(VERSION)_amd64.deb
 DEBIAN_CONTROL = dist/debian/DEBIAN/control
 
 SRCS = src/utils.c src/main.c
+TEST_SRCS = tests/test_utils.c src/utils.c
 INCLUDES = include
 BIN_DIR = bin
 CC=gcc
@@ -22,12 +23,15 @@ VALGRIND_FLAGS = --leak-check=full --track-origins=yes --show-leak-kinds=all
 CFLAGS = -Wall -Wextra
 LINK_FLAGS = -nostdlib
 
-.PHONY: all clean check lint valgrind dist debian
+.PHONY: all clean check lint valgrind dist debian test
 
 all: $(TARGET)
 
 $(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) -I$(INCLUDES) $^ -o $(BIN_DIR)/$@ $(LINK_FLAGS)
+
+test: $(TEST_SRCS)
+	$(CC) -I./$(INCLUDES) $^ -o $(BIN_DIR)/test_utils -lcunit
 
 dist: debian
 
@@ -45,17 +49,23 @@ debian: $(TARGET)
 	dpkg-deb --build dist/debian $(DEBIAN_PACKAGE)
 	@echo "Debian package created: $(DEBIAN_PACKAGE)"
 
-check: lint	valgrind
+check: lint	valgrind cunit
 	@echo "All checks passed!"
 
+checklint:
+	$(LINT) --dry-run -Werror $(SRCS) $(INCLUDES)/*
+
 lint:
-	$(LINT) -i $(SRCS)
+	$(LINT) -i $(SRCS) $(INCLUDES)/*
 
 valgrind: $(TARGET)
 	valgrind $(VALGRIND_FLAGS) $(BIN_DIR)/$(TARGET) .gitignore 1>/dev/null
+
+cunit: test
+	$(BIN_DIR)/test_utils
 
 distclean:
 	$(RM) -rf dist $(PACKAGES)
 
 clean:
-	$(RM) $(BIN_DIR)/$(TARGET)
+	$(RM) $(BIN_DIR)/*
