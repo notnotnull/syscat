@@ -45,4 +45,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: valgrind
-        run: make test && bin/utils_test
+        run: make valgrind

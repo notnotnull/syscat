@@ -59,7 +59,7 @@ lint:
 	$(LINT) -i $(SRCS) $(INCLUDES)/*
 
 valgrind: $(TARGET)
-	valgrind $(VALGRIND_FLAGS) $(BIN_DIR)/$(TARGET) .gitignore 1>/dev/null
+	valgrind $(VALGRIND_FLAGS) $(BIN_DIR)/$(TARGET) README.md 1>/dev/null
 
 cunit: test
 	$(BIN_DIR)/test_utils
