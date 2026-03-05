@@ -28,6 +28,7 @@ LINK_FLAGS = -nostdlib
 all: $(TARGET)
 
 $(TARGET): $(SRCS)
+	mkdir -p $(BIN_DIR)
 	$(CC) $(CFLAGS) -I$(INCLUDES) $^ -o $(BIN_DIR)/$@ $(LINK_FLAGS)
 
 test: $(TEST_SRCS)
