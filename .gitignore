@@ -56,3 +56,9 @@ dkms.conf
 
 # Binary output files
 bin/*
+
+# Dist packages and files
+dist
+*.deb
+*.rpm
+*.tar.gz
