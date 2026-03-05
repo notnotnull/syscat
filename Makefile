@@ -7,10 +7,9 @@ RM =rm -f
 # Compiler and linker flags
 # -Wall: Enable all warnings
 # -Wextra: Enable extra warnings
-# -O2: Optimize the code for better performance
 # ---
 # -nostdlib: Do not link against the standard library
-CFLAGS = -Wall -Wextra -O2
+CFLAGS = -Wall -Wextra
 LINK_FLAGS = -nostdlib
 
 .PHONY: all clean
