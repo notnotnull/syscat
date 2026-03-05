@@ -1,12 +1,12 @@
 TARGET = syscat
 VERSION = 0.1.0
+RELEASE = 1
 
 # Packaging
+# Debian
 DEBIAN_PACKAGE = $(TARGET)_$(VERSION)_amd64.deb
 DEBIAN_CONTROL = dist/debian/DEBIAN/control
-RPM_PACKAGE = $(TARGET)-$(VERSION).x86_64.rpm
-ARCH_PACKAGE = $(TARGET)-$(VERSION)-x86_64.tar.gz
-PACKAGES = $(DEBIAN_PACKAGE) $(RPM_PACKAGE) $(ARCH_PACKAGE)
+
 SRCS = src/main.c
 BIN_DIR = bin
 CC=gcc
@@ -22,14 +22,14 @@ VALGRIND_FLAGS = --leak-check=full --track-origins=yes --show-leak-kinds=all
 CFLAGS = -Wall -Wextra
 LINK_FLAGS = -nostdlib
 
-.PHONY: all clean check lint valgrind dist debian redhat arch
+.PHONY: all clean check lint valgrind dist debian
 
 all: $(TARGET)
 
 $(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) -o $(BIN_DIR)/$@ $^ $(LINK_FLAGS)
 
-dist: debian redhat arch
+dist: debian
 
 debian: $(TARGET)
 	@echo "Creating Debian package..."

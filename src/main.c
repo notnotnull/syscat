@@ -5,8 +5,9 @@
 #define __NR_exit 60
 
 #define O_RDONLY 00
-
 #define BUFFER_SIZE 128
+#define STDOUT_FILENO 1
+#define STDERR_FILENO 2
 
 /*
  * Startup routine
@@ -129,12 +130,13 @@ clear_buff (char *buffer)
 int
 main (int argc, char *argv[])
 {
+  (void)argc;
   // open file
   int fd = 0;
-  fd = syscall2 (__NR_open, (long)argv[1], O_RDONLY);
-  if (0 > fd)
+  fd = syscall2 (__NR_open, (long)(argv[1]), O_RDONLY);
+  if (fd < 0)
     {
-      syscall3 (__NR_write, 2, (long)"Error opening file\n", 19);
+      syscall3 (__NR_write, STDERR_FILENO, (long)"Error opening file\n", 19);
       syscall1 (__NR_exit, 1);
     }
 
@@ -142,13 +144,14 @@ main (int argc, char *argv[])
   unsigned long int read_size = 0;
 
   // read file
-  while ((read_size = syscall3 (__NR_read, fd, (long)buffer, BUFFER_SIZE)) > 0)
+  while ((read_size = syscall3(__NR_read, fd, (long)buffer, BUFFER_SIZE)) > 0)
     {
       // write file
-      syscall3 (__NR_write, 1, (long)buffer, read_size);
+      syscall3 (__NR_write, STDOUT_FILENO, (long)(buffer), read_size);
       clear_buff (buffer);
     }
 
   // close file
   syscall1 (__NR_close, fd);
+  return 0;
 }
