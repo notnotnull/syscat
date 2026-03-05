@@ -32,6 +32,7 @@ $(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) -I$(INCLUDES) $^ -o $(BIN_DIR)/$@ $(LINK_FLAGS)
 
 test: $(TEST_SRCS)
+	mkdir -p $(BIN_DIR)
 	$(CC) -I./$(INCLUDES) $^ -o $(BIN_DIR)/test_utils -lcunit
 
 dist: debian

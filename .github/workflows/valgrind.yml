@@ -1,4 +1,4 @@
-name: C Workflows
+name: Valgrind
 
 on:
   push:
@@ -13,16 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: build
+    - name: configure
       run: sudo apt install build-essential valgrind clang-format
     - name: make
       run: make
-    
-  clang_format:
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: clang-format
-        run: make checklint
+    - name: make valgrind
+      run: make valgrind
