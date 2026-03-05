@@ -30,7 +30,7 @@ jobs:
   unit_tests:
 
     runs-on: ubuntu-latest
-    needs: build clang-format
+    needs: build
 
     steps:
       - uses: actions/checkout@v4
@@ -40,9 +40,9 @@ jobs:
   valgrind:
 
     runs-on: ubuntu-latest
-    needs: build clang-format
+    needs: build
 
     steps:
       - uses: actions/checkout@v4
       - name: valgrind
-        run: make test && bin/utils_test
+        run: make valgrind
